@@ -18,6 +18,38 @@
             <RowDefinition Height="0.1*" />
             <RowDefinition />
         </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.3*"/>
+                <ColumnDefinition Width="0.17*" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="0" 
+                  Background="Gray"
+                  BorderBrush="Black"
+                  BorderThickness="2"
+                  Margin="2 2 0 2">
+                <TextBlock Text="{Binding AdditionalDataInfo.effectiveDate}"
+                           FontSize="20"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"
+                           />
+                
+            </Border>
+            <Border Grid.Column="1" 
+                    Margin="2 2 2 2"
+                    
+                    BorderThickness="1"
+                    BorderBrush="Black"
+                    Background="Gray">
+                    <Button Name="UpdateDataButton" FontSize="16" 
+                            FontWeight="Bold" Click="UpdateDataButton_Click"
+                            Command="{Binding UpdateCommand}">
+                        Update
+                    </Button>
+            </Border>
+            
+        </Grid>
         <Grid Grid.Row="1" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.34*"/>

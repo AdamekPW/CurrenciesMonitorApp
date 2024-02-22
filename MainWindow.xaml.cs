@@ -23,5 +23,10 @@ namespace Waluty
             DataContext = new MainViewModel();
             
         }
+
+        private void UpdateDataButton_Click(object sender, RoutedEventArgs e)
+        {
+           
+        }
     }
 }

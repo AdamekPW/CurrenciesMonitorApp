@@ -23,9 +23,10 @@ namespace Waluty
             }
         }
 
-        public static async Task<List<Currency>> GetDataFromWebsite(string url = $"http://api.nbp.pl/api/exchangerates/tables/A/")
+        public static async Task<Data> GetDataFromWebsite(string url = $"http://api.nbp.pl/api/exchangerates/tables/A/")
         {
-            List<Currency> data = new List<Currency>();
+            AdditionalDataInfo dataInfo = new AdditionalDataInfo();
+            List<Currency> CurData = new List<Currency>();
             using (var client = new HttpClient())
             {
                 HttpResponseMessage responseMessage = await client.GetAsync(url);
@@ -36,12 +37,17 @@ namespace Waluty
                     if (jsonObject == null)
                     {
                         Console.WriteLine("Data is null");
-                        return data;
+                        return new Data();
                     }
+                    dataInfo = new AdditionalDataInfo(
+                        jsonObject[0]["table"].ToString(),
+                        jsonObject[0]["no"].ToString(),
+                        jsonObject[0]["effectiveDate"].ToString()
+                    );
                     JArray Rates = (JArray)jsonObject[0]["rates"];
                     foreach (var cur in Rates)
                     {
-                        data.Add(new Currency(cur["currency"].ToString(), cur["code"].ToString(), cur["mid"].ToString()));
+                        CurData.Add(new Currency(cur["currency"].ToString(), cur["code"].ToString(), cur["mid"].ToString()));
                     }
               
 
@@ -51,7 +57,7 @@ namespace Waluty
                 }
 
             }
-            return data;
+            return new Data(dataInfo, CurData);
            
         }
         
@@ -71,7 +77,28 @@ namespace Waluty
 
     }
     
-      
+    
+    public class Data : INotifyPropertyChanged
+    {
+        public AdditionalDataInfo AdditionalDataInfo;
+        public List<Currency> CurrencyList;
+        public Data()
+        {
+            AdditionalDataInfo = new AdditionalDataInfo();
+            CurrencyList = new List<Currency>();
+        }
+        public Data(AdditionalDataInfo _AddDataInfo, List<Currency> _Currencies)
+        {
+            AdditionalDataInfo = _AddDataInfo;
+            CurrencyList = _Currencies;
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
     public class Currency : INotifyPropertyChanged
     {
         private string _currency;
@@ -120,5 +147,59 @@ namespace Waluty
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
+    public class AdditionalDataInfo : INotifyPropertyChanged 
+    {
+        private string _table;
+        private string _no;
+        private string _effectiveDate;
+        
+        public string table
+        {
+            get { return _table; }
+            set
+            {
+                _table = value;
+                OnPropertyChanged(nameof(table));
+            }
+        }
+        public string no
+        {
+            get { return _no; }
+            set
+            {
+                _no = value;
+                OnPropertyChanged(nameof(no));
+            }
+        }
+        public string effectiveDate
+        {
+            get { return _effectiveDate; }
+            set
+            {
+                _effectiveDate = value;
+                OnPropertyChanged(nameof(effectiveDate));
+            }
+        }
+
+        public AdditionalDataInfo(string Table = "-1", string No = "-1", string EffectiveDate = "-1")
+        {
+            table = Table;
+            no = No;
+            effectiveDate = EffectiveDate;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        public virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+    }
+
+
+
+
+
+
 
 }
