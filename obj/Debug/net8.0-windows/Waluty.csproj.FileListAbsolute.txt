@@ -23,3 +23,6 @@ C:\Users\szulc\source\repos\Waluty\bin\Debug\net8.0-windows\Newtonsoft.Json.dll
 C:\Users\szulc\source\repos\Waluty\obj\Debug\net8.0-windows\Waluty.csproj.AssemblyReference.cache
 C:\Users\szulc\source\repos\Waluty\obj\Debug\net8.0-windows\Waluty.csproj.CopyComplete
 C:\Users\szulc\source\repos\Waluty\obj\Debug\net8.0-windows\Waluty.sourcelink.json
+C:\Users\szulc\source\repos\Waluty\bin\Debug\net8.0-windows\OxyPlot.dll
+C:\Users\szulc\source\repos\Waluty\bin\Debug\net8.0-windows\OxyPlot.Wpf.dll
+C:\Users\szulc\source\repos\Waluty\bin\Debug\net8.0-windows\OxyPlot.Wpf.Shared.dll

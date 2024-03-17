@@ -3,81 +3,82 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:oxy="http://oxyplot.org/wpf"
         xmlns:local="clr-namespace:Waluty"
         mc:Ignorable="d"
-        Title="Currency monitor" Height="450" Width="800">
-    
-        
+        Title="Currency monitor" Height="450" Width="800" Closing="MainWindow_Exit" 
+        >
+
+
     <Window.DataContext>
         <local:MainViewModel />
     </Window.DataContext>
+    <Window.Resources>
+        <local:IconConverter x:Key="iconConverter" />
+    </Window.Resources>
 
-    <Grid Background="#21201f">
-        
-        <Grid.RowDefinitions >
-            <RowDefinition Height="0.1*" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.3*"/>
-                <ColumnDefinition Width="0.17*" />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <Border Grid.Column="0" 
-                  Background="Gray"
-                  BorderBrush="Black"
-                  BorderThickness="2"
-                  Margin="2 2 0 2">
-                <TextBlock Text="{Binding AdditionalDataInfo.effectiveDate}"
-                           FontSize="20"
-                           VerticalAlignment="Center"
-                           HorizontalAlignment="Center"
-                           />
-                
-            </Border>
-            <Border Grid.Column="1" 
-                    Margin="2 2 2 2"
-                    
-                    BorderThickness="1"
-                    BorderBrush="Black"
-                    Background="Gray">
-                    <Button Name="UpdateDataButton" FontSize="16" 
-                            FontWeight="Bold" Click="UpdateDataButton_Click"
-                            Command="{Binding UpdateCommand}">
-                        Update
-                    </Button>
-            </Border>
-            
-        </Grid>
-        <Grid Grid.Row="1" >
+    <Grid Background="#21201f" Margin="4 4 4 4">
+
+        <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.34*"/>
                 <ColumnDefinition Width="0.66*"/>
             </Grid.ColumnDefinitions>
-            <Grid Grid.Column="0" Margin="4 0 0 0">
+            <Grid Grid.Column="0" Margin="2 0 0 0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="0.1*"/>
-                    <RowDefinition />
-                    <RowDefinition Height="0.02*"/>
+                    <RowDefinition Height="0.1*"/>
+                    <RowDefinition Height="0.8*"/>
                 </Grid.RowDefinitions>
-                <Grid Grid.Row="0">
+                <Grid Grid.Row="0" Margin="0 2 0 2">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.5*"/>
+                        <ColumnDefinition Width="0.5*" />
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.Column="0" 
+                          Background="LightSteelBlue"
+                          Margin="0 1 0 0">
+
+                        <TextBlock Text="{Binding AdditionalDataInfo.effectiveDate}"
+                               FontSize="20"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
+                               />
+
+                    </Border>
+                    <Border Grid.Column="1" 
+                
+            
+                            
+                            Background="LightSteelBlue">
+                        <Button Name="UpdateDataButton" FontSize="16" 
+                                FontWeight="Bold" Click="UpdateDataButton_Click"
+                                Command="{Binding UpdateCommand}" Height="37" VerticalAlignment="Center"
+                                Background="Transparent">
+                            Update
+                        </Button>
+                    </Border>
+
+
+
+                </Grid>
+                <Grid Grid.Row="1"
+                      Background="DarkSeaGreen">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                         <ColumnDefinition />
-                        <ColumnDefinition Width="17"/>
+                        <ColumnDefinition Width="43"/>
                     </Grid.ColumnDefinitions>
-                    <Border Grid.Column="0"            
-                            Background="DarkGray">
-
+                    <Border Grid.Column="0" >
                         <TextBlock  Text="Currency"
                                     FontSize="20"
                                     TextAlignment="Center"
                                     VerticalAlignment="Center"
                                     FontWeight="Bold"/>
                     </Border>
-                    <Border Grid.Column="1"
-                            Background="DarkGray">
+                    <Border Grid.Column="1">
+
                         <TextBlock Text="Value [PLN]" 
                                    FontSize="20"
                                    TextAlignment="Center"
@@ -85,29 +86,30 @@
                                    FontWeight="Bold"/>
                     </Border>
                 </Grid>
-
-                
-                
-                <ScrollViewer Grid.Row="1"
+                <Border Grid.Row="2"
+                        BorderThickness="4"
+                        BorderBrush="DarkSeaGreen">
+                    <ScrollViewer 
                               VerticalScrollBarVisibility="Auto" 
                               HorizontalScrollBarVisibility="Disabled">
-                  
-                <ItemsControl ItemsSource="{Binding CurrencyList }">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border BorderBrush="Black" BorderThickness="1" CornerRadius="6">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="0.5*"/>
-                                    <ColumnDefinition Width="0.5*"/>
-                                </Grid.ColumnDefinitions>
-                                
-                                <Border CornerRadius="7" 
+
+                    <ItemsControl ItemsSource="{Binding CurrencyList }">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="Black" BorderThickness="1" CornerRadius="6">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="0.45*"/>
+                                            <ColumnDefinition Width="0.45*"/>
+                                            <ColumnDefinition Width="0.1*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Border CornerRadius="7" 
                                         Margin="1"
                                         Grid.Column="0"
                                         ToolTip="{Binding currency}"
                                         ToolTipService.InitialShowDelay="0"
-                                        Background="Gray">
+                                        Background="AliceBlue">
                                             <TextBlock FontSize="20"     
                                            TextAlignment="Center" 
                                            FontWeight="Bold" 
@@ -117,36 +119,233 @@
                                            
                                            Text="{Binding code}">
                                             </TextBlock>
-                                        
-                                </Border>
-                                <Border CornerRadius="7"
+
+                                        </Border>
+                                        <Border CornerRadius="7"
                                         Margin="1"
                                         Grid.Column="1"
-                                        Background="Gray">
-                                        <TextBlock FontSize="20"      
+                                        Background="AliceBlue">
+                                            <TextBlock FontSize="20"      
                                                TextAlignment="Center"
                                                VerticalAlignment="Center"
                                                HorizontalAlignment="Center"
-                                               
+                                            
                                                FontWeight="Bold"
                                                Text="{Binding mid}"/>
+                                        </Border>
+
+                                        <Border Grid.Column="2"
+                                        BorderThickness="1"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center">
+                                            <CheckBox HorizontalAlignment="Stretch" 
+                                            VerticalAlignment="Stretch"
+                                            Background="LightGray" 
+                                            Content="{Binding}"
+                                            IsChecked="{Binding IsChecked}"
+                                            Checked="BoxChecked"
+                                            Unchecked="BoxUnChecked"
+                                            Tag="{Binding code}"
+                                            />
+
+
+                                        </Border>
+
+
+                                    </Grid>
+
                                 </Border>
 
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
 
+                    </ItemsControl>
+                </ScrollViewer>
+                </Border>
+            </Grid>
+            <Grid Grid.Column="1" Margin="0 0 4 0">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.08*"/>
+                    <RowDefinition Height="0.12*"/>
+                    <RowDefinition Height="0.8*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" x:Name="ChoosingGraph">
+                    <Border Margin="3 0 0 0">
+                        <ItemsControl ItemsSource="{Binding ChartsList}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Width="101"
+                                        Height="35"
+                                    
+                                        Background="LightBlue"
+                                        
+                                        
+                                        >
+
+                                        <Button 
+                                           Click="ChartButton_Click"
+                                            
+                                           Background="Transparent" 
+                                           Content="{Binding name}" 
+                                           FontSize="16"
+                                           FontWeight="Bold"
+                                           Foreground="Black"
+                                           
+                                           VerticalAlignment="Stretch"
+                                           HorizontalAlignment="Stretch"/>
+
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Border>
+                </Grid>
+                <Grid Grid.Row="1" Background="AliceBlue" Margin="4 1 0 1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.Column="0" Margin="4 0 0 0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.8*"/>
+                                <ColumnDefinition Width="0.2*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="30*"/>
+                                    <ColumnDefinition Width="37*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0"     
+                                           Text="{Binding AllChartStats[0].name}" 
+                                           
+                                           FontSize="15"
+                                           FontWeight="DemiBold"
+                                           TextAlignment="Center" Grid.ColumnSpan="2" Margin="0,0,0,19" Grid.RowSpan="2"/>
+                                <TextBlock Grid.Row="1"  
+                                           ToolTip="Comparison with the previous day"
+                                           ToolTipService.InitialShowDelay="0"
+                                           Foreground="{Binding ChartStatsTextColor}"
+                                           Text="{Binding AllChartStats[0].difference}" 
+                                           
+                                           FontSize="15"
+                                           FontWeight="DemiBold"
+                                           TextAlignment="Center" Grid.ColumnSpan="2"/>
 
                             </Grid>
-                                
-                            </Border>
-                            
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>                    
 
-                </ItemsControl>
-                </ScrollViewer>
+                            <Grid Grid.Column="1" >
+                                <Image Source="{Binding ArrowIcon, Converter={StaticResource iconConverter}}" 
+                                        VerticalAlignment="Stretch"
+                                        HorizontalAlignment="Stretch"
+                                        />
+                            </Grid>
+                        </Grid>
+
+                    </Border>
+                    <Border Grid.Column="1"
+                            BorderBrush="Black"
+                            BorderThickness="1 0 1 0">
+
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0"
+                                       Text="Last 30 days"
+                                       TextAlignment="Center"
+                                       FontWeight="DemiBold"
+                                       FontSize="15"
+                                        >
+
+                            </TextBlock>
+                            <Grid Grid.Row="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="1"
+                                           TextAlignment="Center"
+                                           FontSize="15"
+                                           Text="{Binding AllChartStats[1].difference}"
+                                           >
+
+                                </TextBlock>
+                                <TextBlock Grid.Column="0"
+                                           TextAlignment="Center"
+                                           FontSize="15"
+                                           Text="{Binding AllChartStats[1].name}"
+                                           >
+
+                                </TextBlock>
+                            </Grid>
+
+
+
+                        </Grid>
+                    </Border>
+
+                    <Border Grid.Column="2">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0"
+                                       Text="Last 90 days"
+                                       TextAlignment="Center"
+                                       FontWeight="DemiBold"
+                                       FontSize="15"
+                                        >
+
+                            </TextBlock>
+                            <Grid Grid.Row="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0"
+                                           TextAlignment="Center"
+                                           FontSize="15"
+                                           Text="{Binding AllChartStats[2].name}"
+                                           >
+
+                                </TextBlock>
+                                <TextBlock Grid.Column="1"
+                                           TextAlignment="Center"
+                                           FontSize="15"
+                                           Text="{Binding AllChartStats[2].difference}"
+                                           >
+
+                                </TextBlock>
+                            </Grid>
+
+
+                        </Grid>
+                    </Border>
+
+                </Grid>
+                <Grid Grid.Row="2" Margin="4 0 0 0">
+                    <oxy:PlotView Model="{Binding CostModel}" x:Name="myPlot"/>
+
+
+                </Grid>
 
             </Grid>
         </Grid>
-        
+
 
     </Grid>
 </Window>
